@@ -1,0 +1,4 @@
+2026/04/26 22:26:29.208,INFO,3,com.kmaebashi.nctfwimpl.ServiceInvokerImpl.doLogic in ServiceInvokerImpl.java at 66,"com.kmaebashi.sporder.service.MenuService.showMenu start."
+2026/04/26 22:26:29.278,INFO,3,com.kmaebashi.nctfwimpl.ServiceInvokerImpl.doLogic in ServiceInvokerImpl.java at 68,"com.kmaebashi.sporder.service.MenuService.showMenu end."
+2026/04/26 22:26:29.297,INFO,3,com.kmaebashi.nctfwimpl.ServiceInvokerImpl.doLogic in ServiceInvokerImpl.java at 66,"com.kmaebashi.sporder.service.MenuService.showMenu start."
+2026/04/26 22:26:29.301,INFO,3,com.kmaebashi.nctfwimpl.ServiceInvokerImpl.doLogic in ServiceInvokerImpl.java at 68,"com.kmaebashi.sporder.service.MenuService.showMenu end."

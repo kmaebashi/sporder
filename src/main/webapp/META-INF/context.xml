@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Context path="/sporder" docBase="/sporder" reloadable="true"
+  allowCasualMultipartParsing="true">
+  <Resource name="jdbc/sporder"
+    auth="Container"
+    type="javax.sql.DataSource"
+    username="sporderuser"
+    password="sporderpass#0425"
+    driverClassName="org.postgresql.Driver"
+    url="jdbc:postgresql://localhost/sporderdb?currentSchema=sporderschema"/>
+  />
+</Context>

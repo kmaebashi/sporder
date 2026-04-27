@@ -1,0 +1,193 @@
+-- char(22)のIDは128ビット乱数から生成したランダム文字列
+
+-- レストランマスタ
+create table m_restaurants (
+  rt_id  varchar(32) primary key,
+  name_id integer, -- m_words.word_id
+  created_at timestamp not null
+);
+
+-- テーブル(席)
+-- current_order_groupが非NULLのとき、その席は利用中。
+create table m_tables (
+  rt_id varchar(32) not null references m_restaurants(rt_id),
+  table_id varchar(32) not null,
+  table_code char(22) not null,
+  name varchar(32) not null,
+  current_order_group char(22),
+  created_at timestamp not null,
+  updated_at timestamp not null,
+  primary key (rt_id, table_id)
+);
+
+-- 同じテーブルで注文する端末を束ねるオーダーグループ。
+create table t_order_groups (
+  rt_id varchar(32) not null references m_restaurants(rt_id),
+  order_group_id char(22),
+  table_id varchar(32) not null,
+  created_at timestamp not null,
+  closed_at timestamp not null,
+  primary key (rt_id, order_group_id),
+  foreign key (rt_id, table_id) references m_tables (rt_id, table_id)
+);
+
+-- 端末がオーダーグループに参加するために発行されるトークン
+create table t_join_tokens (
+  rt_id varchar(32) not null,
+  join_token_id char(22),
+  order_group_id char(22),
+  created_at timestamp,
+  used boolean,
+  primary key (rt_id, join_token_id),
+  foreign key (rt_id, order_group_id)
+    references t_order_groups (rt_id, order_group_id)
+);
+
+-- 端末ごとのセッション
+create table t_device_sessions (
+  rt_id varchar(32) not null,
+  device_session_id char(22) not null,
+  order_group_id char(22) not null,
+  session_token char(22) not null, -- Cookieに保持する
+  expires_at timestamp not null,
+  created_at timestamp not null,
+  primary key (rt_id, device_session_id),
+  foreign key (rt_id, order_group_id)
+    references t_order_groups (rt_id, order_group_id)
+);
+
+-- 多国語対応のために表示文言はすべてここに置く
+create table m_words (
+  rt_id varchar(32) not null references m_restaurants(rt_id),
+  word_id integer not null,
+  locale smallint not null, -- 1:jp, 2:en
+  word text not null,
+  created_at timestamp not null,
+  updated_at timestamp not null,
+  primary key (rt_id, word_id)
+);
+
+-- メニューのカテゴリ
+create table m_categories (
+  rt_id varchar(32) not null references m_restaurants(rt_id),
+  category_id integer not null,
+  name_id integer not null,
+  display_order integer not null,
+  created_at timestamp not null,
+  updated_at timestamp not null,
+  foreign key (rt_id, name_id)
+    references m_words (rt_id, word_id),
+  primary key (rt_id, category_id)
+);
+
+-- m_categoryのサブカテゴリ
+create table m_subcategories (
+  rt_id varchar(32) not null references m_restaurants(rt_id),
+  subcategory_id integer not null,
+  category_id integer not null,
+  name_id integer not null,
+  display_order integer not null,
+  created_at timestamp not null,
+  updated_at timestamp not null,
+  primary key (rt_id, subcategory_id),
+  foreign key (rt_id, name_id)
+    references m_words (rt_id, word_id),
+  foreign key (rt_id, category_id)
+    references m_categories (rt_id, category_id)
+);
+
+-- カテゴリとサブカテゴリのIDは通しで連番を振る。
+-- その連番生成テーブル
+create table s_category_id (
+  rt_id varchar(32) primary key references m_restaurants(rt_id),
+  next_category_id integer not null,
+  updated_at timestamp not null
+);
+
+-- ドリンクや料理のオプション
+create table m_options (
+  rt_id varchar(32) not null references m_restaurants(rt_id),
+  option_id integer not null,
+  name_id integer not null,
+  created_at timestamp not null,
+  updated_at timestamp not null,
+  foreign key (rt_id, name_id)
+    references m_words (rt_id, word_id),
+  primary key (rt_id, option_id)
+);
+
+-- option_idの採番テーブル
+create table s_option_id (
+  rt_id varchar(32) primary key references m_restaurants(rt_id),
+  next_option_id integer not null,
+  updated_at timestamp not null
+);
+
+-- オプションの値
+create table m_option_values (
+  rt_id varchar(32) not null,
+  option_id integer not null,
+  option_value_id integer not null, -- 表示順を兼ねる
+  name_id integer not null, 
+  created_at timestamp not null,
+  updated_at timestamp not null,
+  primary key (rt_id, option_id, option_value_id),
+  foreign key (rt_id, option_id)
+    references m_options (rt_id, option_id),
+  foreign key (rt_id, name_id)
+    references m_words (rt_id, word_id)
+);
+
+-- ドリンクや料理を保持する。
+create table m_menu_items (
+  rt_id varchar(32) not null references m_restaurants(rt_id),
+  menu_item_id integer not null,
+  name_id integer not null,
+  price integer not null,
+  option_id integer,
+  photo_s varchar(32),
+  photo_l varchar(32),
+  created_at timestamp not null,
+  updated_at timestamp not null,
+  primary key (rt_id, menu_item_id)
+);
+
+-- menu itemのシーケンス
+create table s_menu_item_id (
+  rt_id varchar(32) primary key references m_restaurants(rt_id),
+  next_menu_item_id integer not null,
+  updated_at timestamp not null
+);
+
+-- カテゴリとmenu itemの対応付け。
+-- ひとつのmenu_itemが複数のカテゴリに属せるようにする。
+create table m_categories_items (
+  rt_id varchar(32) not null,
+  category_id integer not null,
+  menu_item_id integer not null,
+  display_order integer not null,
+  created_at timestamp not null,
+  foreign key (rt_id, menu_item_id)
+    references m_menu_items (rt_id, menu_item_id)
+);
+
+-- 個々の注文
+create table t_order (
+  rt_id varchar(32) not null,
+  order_group_id char(22),
+  order_id integer not null,
+  menu_item_id integer not null,
+  count integer not null,
+  created_at timestamp not null,
+  primary key (rt_id, order_group_id, order_id),
+  foreign key (rt_id, order_group_id)
+    references t_order_groups (rt_id, order_group_id)
+);
+
+-- 注文用のシーケンス
+create table s_order_id (
+  rt_id varchar(32) primary key references m_restaurants(rt_id),
+  next_order_id integer not null,
+  updated_at timestamp not null
+);
+

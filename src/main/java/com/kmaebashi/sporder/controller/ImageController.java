@@ -20,7 +20,7 @@ public class ImageController {
                 throw new BadRequestException("不正なリクエストです。", true);
             }
             int menuItemId = Integer.parseInt(menuItemIdStr);
-            return ImageService.getMenuThumbnail(context.getServiceInvoker(), rtId, menuItemId);
+            return ImageService.getMenuThumbnail(context.getServiceInvoker(), imageRoot, rtId, menuItemId);
         });
     }
 }

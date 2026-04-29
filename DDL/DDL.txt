@@ -25,6 +25,7 @@ create table t_order_groups (
   rt_id varchar(32) not null references m_restaurants(rt_id),
   order_group_id char(22),
   table_id varchar(32) not null,
+  guest_count integer,
   created_at timestamp not null,
   closed_at timestamp not null,
   primary key (rt_id, order_group_id),

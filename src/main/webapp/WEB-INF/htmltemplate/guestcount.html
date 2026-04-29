@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="stylesheet" href="css/destyle.css">
+<link rel="stylesheet" href="css/sporder.css?202508131752">
+<link rel="stylesheet" href="css/guestcount.css?202604291910">
+<script src="js/guestcount.js?202604291910"></script>
+<title>スマホオーダー</title>
+</head>
+<body>
+<main class="guest-count-page">
+  <header class="guest-count-header">
+    <div class="restaurant-name">ダミー居酒屋</div>
+  </header>
+
+  <section class="guest-count-message">
+    <p>いらっしゃいませ<br>ご来店の人数を入力してください</p>
+  </section>
+
+  <form class="guest-count-form">
+    <div class="guest-count-options">
+      <label class="guest-count-option">
+        <input type="radio" name="guest_count" value="1">
+        <span>1名</span>
+      </label>
+      <label class="guest-count-option">
+        <input type="radio" name="guest_count" value="2">
+        <span>2名</span>
+      </label>
+      <label class="guest-count-option">
+        <input type="radio" name="guest_count" value="3">
+        <span>3名</span>
+      </label>
+      <label class="guest-count-option">
+        <input type="radio" name="guest_count" value="4">
+        <span>4名</span>
+      </label>
+      <label class="guest-count-option">
+        <input type="radio" name="guest_count" value="5">
+        <span>5名</span>
+      </label>
+      <label class="guest-count-option">
+        <input type="radio" name="guest_count" value="6">
+        <span>6名</span>
+      </label>
+      <label class="guest-count-option wide">
+        <input type="radio" name="guest_count" value="7">
+        <span>7名以上</span>
+      </label>
+    </div>
+
+    <div class="language-switch" aria-label="表示言語">
+      <label class="language-option">
+        <input type="radio" name="language" value="ja" checked>
+        <span>日本語</span>
+      </label>
+      <label class="language-option">
+        <input type="radio" name="language" value="en">
+        <span>English</span>
+      </label>
+    </div>
+
+    <button type="submit" class="guest-count-submit">人数を送信する</button>
+  </form>
+</main>
+</body>
+</html>

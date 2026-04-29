@@ -4,6 +4,7 @@ public enum Route {
     QR,
     JOIN,
     GUEST_COUNT,
+    SET_GUEST_COUNT,
     MENU,
     MENU_IMAGE_S,
     MENU_IMAGE_L,

@@ -15,6 +15,8 @@ public class SelectRoute {
             return Route.JOIN;
         } else if (path.equals("guestcount")) {
             return Route.GUEST_COUNT;
+        } else if (path.equals("setguestcount")) {
+            return Route.SET_GUEST_COUNT;
         } else if (path.equals("menu")) {
             return Route.MENU;
         } else if (path.equals("menuimages")) {

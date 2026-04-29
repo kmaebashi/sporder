@@ -21,4 +21,5 @@
 - dbaccessでは、1メソッドでひとつのSQLを実行します。selectを行った場合、自作のマッパーでDTOに値を設定します。DTOにはTableColumn属性で列名を指定します(CategoryDto.javaを参照)。
 - 自作のマッパーResultSetMapperでは、データを複数件取得した場合はtoDtoList()メソッドでResultSetをDTOのリストに変換します。結果が1件だとわかっているときは、toDto()メソッドを使います。
 - controller, service, dbaccessそれぞれの階層で、処理を直接実行するのではなく、引数で受け取ったinvokerのinvoke()メソッドに実行させたい処理のラムダ式を渡しています。これは階層を超える際にフレームワークを挟むことでログを出したり例外をcatchしたりするためです。
+- DB更新を含むserviceでは
 - あなたに頼みたいのはservice以下です。router, controllerまでは私が手で書きます。

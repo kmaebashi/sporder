@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <title>送信中...</title>
+</head>
+<body>
+  <p>処理中です。しばらくお待ちください。</p>
+
+  <form id="tokenForm" method="post" action="">
+    <input type="hidden" name="rt_id" value="">
+    <input type="hidden" name="order_group_id" value="">
+    <input type="hidden" name="join_token_id" value="">
+    <input type="hidden" name="is_first" value="false">
+  </form>
+  <script>
+    window.addEventListener("DOMContentLoaded", function () {
+      document.getElementById("tokenForm").submit();
+    });
+  </script>
+</body>
+</html>

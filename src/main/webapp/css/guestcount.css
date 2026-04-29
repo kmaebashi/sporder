@@ -1,0 +1,119 @@
+.guest-count-page {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  padding: 20px 16px;
+  background: #f5f5f5;
+}
+
+.guest-count-header {
+  padding: 8px 0 18px;
+  text-align: center;
+}
+
+.restaurant-name {
+  font-size: 22px;
+  font-weight: bold;
+}
+
+.guest-count-message {
+  margin-bottom: 24px;
+  text-align: center;
+  font-size: 18px;
+  line-height: 1.7;
+}
+
+.guest-count-form {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+}
+
+.guest-count-options {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 10px;
+}
+
+.guest-count-option {
+  min-width: 0;
+}
+
+.guest-count-option input {
+  position: absolute;
+  opacity: 0;
+  pointer-events: none;
+}
+
+.guest-count-option span {
+  height: 56px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 2px solid #d0d0d0;
+  border-radius: 8px;
+  background: #fff;
+  font-size: 17px;
+  font-weight: bold;
+  cursor: pointer;
+}
+
+.guest-count-option input:checked + span,
+.guest-count-option.selected span {
+  border-color: #ff6600;
+  background: #ff6600;
+  color: #fff;
+}
+
+.guest-count-option.wide {
+  grid-column: span 2;
+}
+
+.language-switch {
+  width: min(100%, 280px);
+  display: flex;
+  align-self: center;
+  margin: 28px 0 18px;
+  padding: 4px;
+  border: 1px solid #d0d0d0;
+  border-radius: 8px;
+  background: #fff;
+}
+
+.language-option {
+  flex: 1;
+}
+
+.language-option input {
+  position: absolute;
+  opacity: 0;
+  pointer-events: none;
+}
+
+.language-option span {
+  min-height: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 6px;
+  font-size: 15px;
+  font-weight: bold;
+  cursor: pointer;
+}
+
+.language-option input:checked + span {
+  background: #333;
+  color: #fff;
+}
+
+.guest-count-submit {
+  width: 100%;
+  margin-top: auto;
+  padding: 14px;
+  border-radius: 8px;
+  background: #ff6600;
+  color: #fff;
+  font-size: 17px;
+  font-weight: bold;
+  cursor: pointer;
+}

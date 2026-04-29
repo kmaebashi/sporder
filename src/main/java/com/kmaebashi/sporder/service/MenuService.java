@@ -1,8 +1,12 @@
 package com.kmaebashi.sporder.service;
 
+import com.kmaebashi.jsonparser.ClassMapper;
 import com.kmaebashi.nctfw.DocumentResult;
+import com.kmaebashi.nctfw.JsonResult;
+import com.kmaebashi.nctfw.NotFoundException;
 import com.kmaebashi.nctfw.ServiceContext;
 import com.kmaebashi.nctfw.ServiceInvoker;
+import com.kmaebashi.sporder.controller.data.MenuItemInfo;
 import com.kmaebashi.sporder.dbaccess.CategoryDbAccess;
 import com.kmaebashi.sporder.dbaccess.MenuDbAccess;
 import com.kmaebashi.sporder.dto.CategoryDto;
@@ -30,6 +34,31 @@ public class MenuService {
             renderMenuList(context, doc, rtId, categoryId);
 
             return ret;
+        });
+    }
+
+    public static JsonResult getMenuItemInfo(ServiceInvoker invoker, String rtId, int menuItemId) {
+        return invoker.invoke((context) -> {
+           MenuItemDto dto = MenuDbAccess.getMenuItem(context.getDbAccessInvoker(), rtId, menuItemId);
+           if (dto == null) {
+               throw new NotFoundException("メニューアイテムが見つかりません。");
+           }
+
+           MenuItemInfo info = new MenuItemInfo();
+           info.menuItemId = dto.menuItemId;
+           info.name = dto.name;
+           info.price = dto.price;
+           if (dto.optionId == null) {
+               info.optionName = null;
+               info.optionList = null;
+           } else {
+               info.optionName = dto.optionName;
+               info.optionList = MenuDbAccess.getOptionList(context.getDbAccessInvoker(), rtId, dto.optionId);
+           }
+
+           String json = ClassMapper.toJson(info);
+
+           return new JsonResult(json);
         });
     }
 
@@ -89,6 +118,7 @@ public class MenuService {
 
         for (MenuItemDto dto : menuItemList) {
             Element cloneElem = menuItemElem.clone();
+            cloneElem.attr("data-menu-item-id", String.valueOf(dto.menuItemId));
             cloneElem.getElementsByClass("menu-name").first().text(dto.name);
             cloneElem.getElementsByClass("menu-price").first().text("¥" + dto.price);
             cloneElem.getElementsByClass("menu-thumbnail").first()

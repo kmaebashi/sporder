@@ -6,6 +6,7 @@
 <link rel="stylesheet" href="css/destyle.css">
 <link rel="stylesheet" href="css/sporder.css?202508131752">
 <link rel="stylesheet" href="css/menu.css?202508131752">
+<script src="js/menu.js?202604291750"></script>
 <title>スマホオーダー</title>
 </head>
 <body>
@@ -60,6 +61,41 @@
     </div>
   </div>
 </div>
+
+<!-- 注文ダイアログ -->
+<dialog id="order-dialog">
+  <form method="dialog" class="order-dialog-form">
+    <div class="order-dialog-body">
+      <div class="order-dialog-image-wrap">
+        <img class="order-dialog-image" src="https://via.placeholder.com/320x240" alt="ワイルドターキー">
+      </div>
+      <div class="order-dialog-info">
+        <div class="order-dialog-name">ワイルドターキー</div>
+        <div class="order-dialog-price">¥800</div>
+        <label class="order-field">
+          <span class="order-field-label">注文数</span>
+          <span class="order-count-control">
+            <button type="button" class="order-count-button decrease">−</button>
+            <input class="order-count" type="number" name="count" value="1" min="1" step="1" readonly>
+            <button type="button" class="order-count-button increase">＋</button>
+          </span>
+        </label>
+        <label class="order-field order-option-field">
+          <span class="order-field-label">飲み方</span>
+          <select class="order-option" name="option">
+            <option value="mizuwari">水割り</option>
+            <option value="rock">ロック</option>
+            <option value="straight">ストレート</option>
+          </select>
+        </label>
+      </div>
+    </div>
+    <div class="order-dialog-actions">
+      <button type="submit" class="order-dialog-button primary">注文する</button>
+      <button type="submit" class="order-dialog-button secondary">キャンセル</button>
+    </div>
+  </form>
+</dialog>
 
 <!-- 下部ナビ -->
 <div class="bottom-nav">

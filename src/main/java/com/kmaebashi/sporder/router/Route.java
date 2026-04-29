@@ -7,5 +7,6 @@ public enum Route {
     MENU,
     MENU_IMAGE_S,
     MENU_IMAGE_L,
+    GET_MENU_ITEM_INFO,
     NO_ROUTE
 }

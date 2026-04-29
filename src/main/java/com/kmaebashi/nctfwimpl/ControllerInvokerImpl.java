@@ -27,4 +27,19 @@ public class ControllerInvokerImpl implements ControllerInvoker {
         }
         return ret;
     }
+
+    public RoutingResult invokeApi(ThrowableFunction<RequestContext, RoutingResult> logic) {
+        RoutingResult ret;
+        try {
+            ret = logic.apply(this.context);
+        } catch (BadRequestException | NotFoundException ex) {
+            this.context.getLogger().info("Controller ex.." + Util.exceptionToString(ex));
+            ex.setApi(true);
+            throw ex;
+        } catch (Exception ex) {
+            this.context.getLogger().error("APIのコントローラーの呼び出しでエラーが発生しました。\n" + Util.exceptionToString(ex));
+            throw new InternalException("APIのコントローラーの呼び出しでエラーが発生しました。", ex, true);
+        }
+        return ret;
+    }
 }

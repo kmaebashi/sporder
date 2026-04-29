@@ -1,7 +1,7 @@
 package com.kmaebashi.sporder.controller;
 
 import com.kmaebashi.nctfw.ControllerInvoker;
-import com.kmaebashi.nctfw.DocumentResult;
+import com.kmaebashi.nctfw.JsonResult;
 import com.kmaebashi.nctfw.NotFoundException;
 import com.kmaebashi.nctfw.RoutingResult;
 import com.kmaebashi.sporder.service.MenuService;
@@ -25,5 +25,23 @@ public class MenuController {
 
             return MenuService.showMenu(context.getServiceInvoker(), rtId, categoryId);
         });
+    }
+
+    public static RoutingResult getMenuItemInfo(ControllerInvoker invoker) {
+        return invoker.invoke((context) -> {
+            HttpServletRequest request = context.getServletRequest();
+            String rtId = request.getParameter("rt_id");
+            if (rtId == null) {
+                throw new NotFoundException("URLが不正です。");
+            }
+            String menuItemIdStr = request.getParameter("menu_item_id");
+            if (menuItemIdStr == null) {
+                throw new NotFoundException("URLが不正です。");
+            }
+            int menuItemId = Integer.parseInt(menuItemIdStr);
+
+            return MenuService.getMenuItemInfo(context.getServiceInvoker(), rtId, menuItemId);
+        });
+
     }
 }

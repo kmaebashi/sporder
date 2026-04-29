@@ -56,11 +56,15 @@ public class SpOrderRouter extends Router {
             } else if (route == Route.MENU_IMAGE_S) {
                 return ImageController.getMenuThumbnail(invoker, imageRoot);
             } else if (route == Route.MENU_IMAGE_L) {
+                return ImageController.getMenuFullsize(invoker, imageRoot);
+            } else if (route == Route.GET_MENU_ITEM_INFO) {
+                return MenuController.getMenuItemInfo(invoker);
             }
         } else if (request.getMethod().equals("POST")) {
             if (route == Route.JOIN) {
                 return LoginController.join(invoker);
             }
+
         }
         return null;
     }

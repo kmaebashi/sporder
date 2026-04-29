@@ -12,6 +12,15 @@ public class MenuItemDto {
     @TableColumn("PRICE")
     public int price;
 
+    @TableColumn("OPTION_ID")
+    public Integer optionId;
+
+    @TableColumn("OPTION_NAME")
+    public String optionName;
+
     @TableColumn("PHOTO_S")
     public String photoS;
+
+    @TableColumn("PHOTO_L")
+    public String photoL;
 }

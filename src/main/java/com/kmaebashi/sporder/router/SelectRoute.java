@@ -21,6 +21,8 @@ public class SelectRoute {
             return Route.MENU_IMAGE_S;
         } else if (path.equals("menuimagel")) {
             return Route.MENU_IMAGE_L;
+        } else if (path.equals("getmenuiteminfo")) {
+            return Route.GET_MENU_ITEM_INFO;
         }
         return Route.NO_ROUTE;
     }

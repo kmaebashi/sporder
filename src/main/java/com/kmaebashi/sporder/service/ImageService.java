@@ -27,4 +27,21 @@ public class ImageService {
             return new ImageFileResult(imagePath);
         });
     }
+
+    public static ImageFileResult getMenuFullsize(ServiceInvoker invoker, Path imageRoot, String rtId, int menuItemId) {
+        return invoker.invoke((context) -> {
+            MenuItemDto dto = ImageDbAccess.getMenuItem(context.getDbAccessInvoker(), rtId, menuItemId);
+            if (dto == null) {
+                throw new NotFoundException("画像が見つかりません。");
+            }
+
+            String fileName = dto.photoL;
+            if (fileName == null) {
+                fileName = "LDUMMY.jpg";
+            }
+            Path imagePath = imageRoot.resolve(rtId).resolve("fullsize").resolve(fileName);
+
+            return new ImageFileResult(imagePath);
+        });
+    }
 }

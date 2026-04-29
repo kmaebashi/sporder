@@ -16,7 +16,8 @@ public class ImageDbAccess {
             String sql = """
 SELECT
   MENU_ITEM_ID,
-  PHOTO_S
+  PHOTO_S,
+  PHOTO_L
 FROM M_MENU_ITEMS
 WHERE
   RT_ID = :RT_ID

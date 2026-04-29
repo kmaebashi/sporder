@@ -8,7 +8,7 @@ public class LoginController {
     private LoginController() {}
 
     public static DocumentResult start(ControllerInvoker invoker) {
-        return null;
+
     }
 
     public static DocumentResult join(ControllerInvoker invoker) {

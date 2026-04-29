@@ -27,7 +27,7 @@ create table t_order_groups (
   table_id varchar(32) not null,
   guest_count integer,
   created_at timestamp not null,
-  closed_at timestamp not null,
+  closed_at timestamp,
   primary key (rt_id, order_group_id),
   foreign key (rt_id, table_id) references m_tables (rt_id, table_id)
 );

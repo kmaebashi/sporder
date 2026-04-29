@@ -12,6 +12,8 @@ import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 
+import java.net.URLEncoder;
+import java.nio.charset.StandardCharsets;
 import java.nio.file.Path;
 import java.util.List;
 
@@ -40,7 +42,9 @@ public class MenuService {
 
         for (CategoryDto dto : categoryList) {
             Element cloneElem = firstCateElem.clone();
+            cloneElem.tagName("a");
             cloneElem.text(dto.name);
+            cloneElem.attr("href", createMenuUrl(rtId, dto.categoryId));
             if (dto.categoryId == categoryId) {
                 cloneElem.addClass("active");
             } else {
@@ -48,6 +52,11 @@ public class MenuService {
             }
             categoryBarElem.appendChild(cloneElem);
         }
+    }
+
+    private static String createMenuUrl(String rtId, int categoryId) {
+        String encodedRtId = URLEncoder.encode(rtId, StandardCharsets.UTF_8);
+        return "menu?rt_id=" + encodedRtId + "&category_id=" + categoryId;
     }
 
     private static void renderMenuList(ServiceContext context, Document doc, String rtId, int categoryId) {

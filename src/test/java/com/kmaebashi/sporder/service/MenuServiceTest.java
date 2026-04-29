@@ -32,7 +32,7 @@ class MenuServiceTest {
         DbAccessContext dc = new DbAccessContextImpl(this.conn, logger);
         DbAccessInvoker di = new DbAccessInvokerImpl(dc);
         ServiceContext sc = new ServiceContextImpl(di,
-                Paths.get("./src/main/resources/htmltemplate"),
+                Paths.get(SpOrderTestUtil.HTML_TEMPLATE_PATH),
                 logger);
         ServiceInvoker si = new ServiceInvokerImpl(sc);
 
@@ -45,7 +45,7 @@ class MenuServiceTest {
         DbAccessContext dc = new DbAccessContextImpl(this.conn, logger);
         DbAccessInvoker di = new DbAccessInvokerImpl(dc);
         ServiceContext sc = new ServiceContextImpl(di,
-                Paths.get("./src/main/resources/htmltemplate"),
+                Paths.get(SpOrderTestUtil.HTML_TEMPLATE_PATH),
                 logger);
         ServiceInvoker si = new ServiceInvokerImpl(sc);
 

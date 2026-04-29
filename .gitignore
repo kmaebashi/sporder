@@ -8,6 +8,7 @@ target/
 .idea/jarRepositories.xml
 .idea/compiler.xml
 .idea/libraries/
+.idea/
 *.iws
 *.iml
 *.ipr
@@ -40,5 +41,9 @@ build/
 # Keep empty test_output/
 /test_output/*
 !/test_output/.gitkeep
-
+/log
+/TomcatLog
+deploy.bat
+result.txt
+context.xml
 *~

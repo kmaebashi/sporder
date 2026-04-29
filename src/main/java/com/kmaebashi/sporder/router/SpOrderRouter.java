@@ -6,6 +6,7 @@ import com.kmaebashi.nctfw.Router;
 import com.kmaebashi.nctfw.RoutingResult;
 import com.kmaebashi.simplelogger.Logger;
 import com.kmaebashi.sporder.controller.ImageController;
+import com.kmaebashi.sporder.util.Log;
 import jakarta.servlet.ServletContext;
 import jakarta.servlet.http.HttpServletRequest;
 
@@ -31,6 +32,8 @@ public class SpOrderRouter extends Router {
         this.logger = logger;
         this.resourceBundle = rb;
         this.imageRoot = Paths.get(rb.getString("sporder.image-directory"));
+        Log.info("imageRoot src.." + rb.getString("sporder.image-directory"));
+        Log.info("imageRoot.." + imageRoot);
     }
     public RoutingResult doRouting(String path, ControllerInvoker invoker, HttpServletRequest request) {
         HashMap<String, Object> params = new HashMap<>();
@@ -65,7 +68,7 @@ public class SpOrderRouter extends Router {
     @Override
     public Connection getConnection() throws Exception {
         Context context = new InitialContext();
-        DataSource ds = (DataSource)context.lookup("java:comp/env/jdbc/kanjiro");
+        DataSource ds = (DataSource)context.lookup("java:comp/env/jdbc/sporder");
         Connection conn = ds.getConnection();
 
         return  conn;

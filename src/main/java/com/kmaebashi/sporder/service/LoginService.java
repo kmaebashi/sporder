@@ -78,7 +78,7 @@ public class LoginService {
 
             String url;
             if (isFirst) {
-                url = "guestcount";
+                url = "guestcount?rt_id=" + URLEncoder.encode(rtId, StandardCharsets.UTF_8);
             } else {
                 url = "menu?rt_id=" + URLEncoder.encode(rtId, StandardCharsets.UTF_8) + "&category_id=1";
             }

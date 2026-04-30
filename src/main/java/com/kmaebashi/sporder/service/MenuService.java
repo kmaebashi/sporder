@@ -6,6 +6,7 @@ import com.kmaebashi.nctfw.JsonResult;
 import com.kmaebashi.nctfw.NotFoundException;
 import com.kmaebashi.nctfw.ServiceContext;
 import com.kmaebashi.nctfw.ServiceInvoker;
+import com.kmaebashi.sporder.common.Locale;
 import com.kmaebashi.sporder.controller.data.MenuItemInfo;
 import com.kmaebashi.sporder.dbaccess.CategoryDbAccess;
 import com.kmaebashi.sporder.dbaccess.MenuDbAccess;
@@ -24,22 +25,23 @@ import java.util.List;
 public class MenuService {
     private MenuService() {}
 
-    public static DocumentResult showMenu(ServiceInvoker invoker, String rtId, int categoryId) {
+    public static DocumentResult showMenu(ServiceInvoker invoker, String rtId, int categoryId, Locale locale) {
         return invoker.invoke((context) -> {
             Path htmlPath = context.getHtmlTemplateDirectory().resolve("menu.html");
             Document doc = Jsoup.parse(htmlPath.toFile(), "UTF-8");
             DocumentResult ret = new DocumentResult(doc);
 
-            renderCategoryBar(context, doc, rtId, categoryId);
-            renderMenuList(context, doc, rtId, categoryId);
+            renderCategoryBar(context, doc, rtId, categoryId, locale);
+            renderMenuList(context, doc, rtId, categoryId, locale);
 
             return ret;
         });
     }
 
-    public static JsonResult getMenuItemInfo(ServiceInvoker invoker, String rtId, int menuItemId) {
+    public static JsonResult getMenuItemInfo(ServiceInvoker invoker, String rtId, int menuItemId, Locale locale) {
         return invoker.invoke((context) -> {
-           MenuItemDto dto = MenuDbAccess.getMenuItem(context.getDbAccessInvoker(), rtId, menuItemId);
+           MenuItemDto dto = MenuDbAccess.getMenuItem(context.getDbAccessInvoker(), rtId, menuItemId,
+                   locale.getCode());
            if (dto == null) {
                throw new NotFoundException("メニューアイテムが見つかりません。");
            }
@@ -53,7 +55,8 @@ public class MenuService {
                info.optionList = null;
            } else {
                info.optionName = dto.optionName;
-               info.optionList = MenuDbAccess.getOptionList(context.getDbAccessInvoker(), rtId, dto.optionId);
+               info.optionList = MenuDbAccess.getOptionList(context.getDbAccessInvoker(), rtId, dto.optionId,
+                       locale.getCode());
            }
 
            String json = ClassMapper.toJson(info);
@@ -62,8 +65,10 @@ public class MenuService {
         });
     }
 
-    private static void renderCategoryBar(ServiceContext context, Document doc, String rtId, int categoryId) {
-        List<CategoryDto> categoryList = CategoryDbAccess.getCategories(context.getDbAccessInvoker(), rtId);
+    private static void renderCategoryBar(ServiceContext context, Document doc, String rtId, int categoryId,
+                                          Locale locale) {
+        List<CategoryDto> categoryList = CategoryDbAccess.getCategories(context.getDbAccessInvoker(), rtId,
+                locale.getCode());
 
         Element categoryBarElem = doc.getElementById("category-bar");
         Element firstCateElem = categoryBarElem.getElementsByClass("category").first();
@@ -88,9 +93,10 @@ public class MenuService {
         return "menu?rt_id=" + encodedRtId + "&category_id=" + categoryId;
     }
 
-    private static void renderMenuList(ServiceContext context, Document doc, String rtId, int categoryId) {
+    private static void renderMenuList(ServiceContext context, Document doc, String rtId, int categoryId,
+                                       Locale locale) {
         List<SubcategoryDto> subcategoryList
-                = MenuDbAccess.getSubcategories(context.getDbAccessInvoker(), rtId, categoryId);
+                = MenuDbAccess.getSubcategories(context.getDbAccessInvoker(), rtId, categoryId, locale.getCode());
 
         Element menuListElem = doc.getElementById("menu-list");
         Element subcategoryElem = menuListElem.getElementsByClass("subcategory").first();
@@ -98,7 +104,7 @@ public class MenuService {
         menuListElem.empty();
 
         if (subcategoryList.isEmpty()) {
-            renderMenuItems(context, menuListElem, menuItemElem, rtId, categoryId);
+            renderMenuItems(context, menuListElem, menuItemElem, rtId, categoryId, locale);
             return;
         }
 
@@ -107,14 +113,14 @@ public class MenuService {
             cloneSubcategoryElem.text(subcategoryDto.name);
             menuListElem.appendChild(cloneSubcategoryElem);
 
-            renderMenuItems(context, menuListElem, menuItemElem, rtId, subcategoryDto.subcategoryId);
+            renderMenuItems(context, menuListElem, menuItemElem, rtId, subcategoryDto.subcategoryId, locale);
         }
     }
 
     private static void renderMenuItems(ServiceContext context, Element menuListElem, Element menuItemElem,
-                                        String rtId, int categoryId) {
+                                        String rtId, int categoryId, Locale locale) {
         List<MenuItemDto> menuItemList
-                = MenuDbAccess.getMenuItems(context.getDbAccessInvoker(), rtId, categoryId);
+                = MenuDbAccess.getMenuItems(context.getDbAccessInvoker(), rtId, categoryId, locale.getCode());
 
         for (MenuItemDto dto : menuItemList) {
             Element cloneElem = menuItemElem.clone();

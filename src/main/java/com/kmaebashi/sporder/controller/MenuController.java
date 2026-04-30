@@ -4,6 +4,7 @@ import com.kmaebashi.nctfw.ControllerInvoker;
 import com.kmaebashi.nctfw.JsonResult;
 import com.kmaebashi.nctfw.NotFoundException;
 import com.kmaebashi.nctfw.RoutingResult;
+import com.kmaebashi.sporder.common.Locale;
 import com.kmaebashi.sporder.service.MenuService;
 import jakarta.servlet.http.HttpServletRequest;
 
@@ -22,8 +23,9 @@ public class MenuController {
                 throw new NotFoundException("URLが不正です。");
             }
             int categoryId = Integer.parseInt(categoryIdStr);
+            Locale locale = Util.getLocaleFromCookie(request);
 
-            return MenuService.showMenu(context.getServiceInvoker(), rtId, categoryId);
+            return MenuService.showMenu(context.getServiceInvoker(), rtId, categoryId, locale);
         });
     }
 
@@ -39,8 +41,9 @@ public class MenuController {
                 throw new NotFoundException("URLが不正です。");
             }
             int menuItemId = Integer.parseInt(menuItemIdStr);
+            Locale locale = Util.getLocaleFromCookie(request);
 
-            return MenuService.getMenuItemInfo(context.getServiceInvoker(), rtId, menuItemId);
+            return MenuService.getMenuItemInfo(context.getServiceInvoker(), rtId, menuItemId, locale);
         });
 
     }

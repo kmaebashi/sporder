@@ -25,6 +25,12 @@ public class SelectRoute {
             return Route.MENU_IMAGE_L;
         } else if (path.equals("getmenuiteminfo")) {
             return Route.GET_MENU_ITEM_INFO;
+        } else if (path.equals("order")) {
+            return Route.ORDER;
+        } else if (path.equals("orderlist")) {
+            return Route.ORDER_LIST;
+        } else if (path.equals("orderhistory")) {
+            return Route.ORDER_HISTORY;
         }
         return Route.NO_ROUTE;
     }

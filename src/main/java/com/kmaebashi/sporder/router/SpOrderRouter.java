@@ -7,6 +7,7 @@ import com.kmaebashi.nctfw.RoutingResult;
 import com.kmaebashi.simplelogger.Logger;
 import com.kmaebashi.sporder.controller.GuestCountController;
 import com.kmaebashi.sporder.controller.ImageController;
+import com.kmaebashi.sporder.controller.OrderController;
 import com.kmaebashi.sporder.util.Log;
 import jakarta.servlet.ServletContext;
 import jakarta.servlet.http.HttpServletRequest;
@@ -60,12 +61,18 @@ public class SpOrderRouter extends Router {
                 return ImageController.getMenuFullsize(invoker, imageRoot);
             } else if (route == Route.GET_MENU_ITEM_INFO) {
                 return MenuController.getMenuItemInfo(invoker);
+            } else if (route == Route.ORDER_LIST) {
+                return null;
+            } else if (route == Route.ORDER_HISTORY) {
+                return null;
             }
         } else if (request.getMethod().equals("POST")) {
             if (route == Route.JOIN) {
                 return LoginController.join(invoker);
             } else if (route == Route.SET_GUEST_COUNT) {
                 return GuestCountController.setGuestCount(invoker);
+            } else if (route == Route.ORDER) {
+                return OrderController.order(invoker);
             }
         }
         return null;

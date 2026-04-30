@@ -14,7 +14,8 @@ import java.util.List;
 public class MenuDbAccess {
     private MenuDbAccess() {}
 
-    public static List<SubcategoryDto> getSubcategories(DbAccessInvoker invoker, String rtId, int categoryId) {
+    public static List<SubcategoryDto> getSubcategories(DbAccessInvoker invoker, String rtId, int categoryId,
+                                                        int locale) {
         return invoker.invoke((context) -> {
             String sql = """
 SELECT
@@ -24,6 +25,7 @@ FROM M_SUBCATEGORIES SUB
 LEFT OUTER JOIN M_WORDS WORD
   ON SUB.RT_ID = WORD.RT_ID
   AND SUB.NAME_ID = WORD.WORD_ID
+  AND WORD.LOCALE = :LOCALE
 WHERE
   SUB.RT_ID = :RT_ID
   AND SUB.CATEGORY_ID = :CATEGORY_ID
@@ -36,6 +38,7 @@ ORDER BY
             var params = new HashMap<String, Object>();
             params.put("RT_ID", rtId);
             params.put("CATEGORY_ID", categoryId);
+            params.put("LOCALE", locale);
             npps.setParameters(params);
             ResultSet rs = npps.getPreparedStatement().executeQuery();
 
@@ -43,7 +46,7 @@ ORDER BY
         });
     }
 
-    public static List<MenuItemDto> getMenuItems(DbAccessInvoker invoker, String rtId, int categoryId) {
+    public static List<MenuItemDto> getMenuItems(DbAccessInvoker invoker, String rtId, int categoryId, int locale) {
         return invoker.invoke((context) -> {
             String sql = """
 SELECT
@@ -58,6 +61,7 @@ INNER JOIN M_MENU_ITEMS ITEM
 LEFT OUTER JOIN M_WORDS WORD
   ON ITEM.RT_ID = WORD.RT_ID
   AND ITEM.NAME_ID = WORD.WORD_ID
+  AND WORD.LOCALE = :LOCALE
 WHERE
   CATE_ITEM.RT_ID = :RT_ID
   AND CATE_ITEM.CATEGORY_ID = :CATEGORY_ID
@@ -70,6 +74,7 @@ ORDER BY
             var params = new HashMap<String, Object>();
             params.put("RT_ID", rtId);
             params.put("CATEGORY_ID", categoryId);
+            params.put("LOCALE", locale);
             npps.setParameters(params);
             ResultSet rs = npps.getPreparedStatement().executeQuery();
 
@@ -77,7 +82,7 @@ ORDER BY
         });
     }
 
-    public static MenuItemDto getMenuItem(DbAccessInvoker invoker, String rtId, int menuItemId) {
+    public static MenuItemDto getMenuItem(DbAccessInvoker invoker, String rtId, int menuItemId, int locale) {
         return invoker.invoke((context) -> {
             String sql = """
 SELECT
@@ -90,14 +95,14 @@ FROM M_MENU_ITEMS ITEM
 LEFT OUTER JOIN M_WORDS MENU_WORD
   ON ITEM.RT_ID = MENU_WORD.RT_ID
   AND ITEM.NAME_ID = MENU_WORD.WORD_ID
-  AND MENU_WORD.LOCALE = 1
+  AND MENU_WORD.LOCALE = :LOCALE
 LEFT OUTER JOIN M_OPTIONS OPT
   ON ITEM.RT_ID = OPT.RT_ID
   AND ITEM.OPTION_ID = OPT.OPTION_ID
 LEFT OUTER JOIN M_WORDS OPTION_WORD
   ON OPT.RT_ID = OPTION_WORD.RT_ID
   AND OPT.NAME_ID = OPTION_WORD.WORD_ID
-  AND OPTION_WORD.LOCALE = 1
+  AND OPTION_WORD.LOCALE = :LOCALE
 WHERE
   ITEM.RT_ID = :RT_ID
   AND ITEM.MENU_ITEM_ID = :MENU_ITEM_ID
@@ -108,6 +113,7 @@ WHERE
             var params = new HashMap<String, Object>();
             params.put("RT_ID", rtId);
             params.put("MENU_ITEM_ID", menuItemId);
+            params.put("LOCALE", locale);
             npps.setParameters(params);
             ResultSet rs = npps.getPreparedStatement().executeQuery();
 
@@ -115,7 +121,8 @@ WHERE
         });
     }
 
-    public static List<MenuItemInfo.OptionInfo> getOptionList(DbAccessInvoker invoker, String rtId, int optionId) {
+    public static List<MenuItemInfo.OptionInfo> getOptionList(DbAccessInvoker invoker, String rtId, int optionId,
+                                                              int locale) {
         return invoker.invoke((context) -> {
             String sql = """
 SELECT
@@ -125,7 +132,7 @@ FROM M_OPTION_VALUES VAL
 LEFT OUTER JOIN M_WORDS WORD
   ON VAL.RT_ID = WORD.RT_ID
   AND VAL.NAME_ID = WORD.WORD_ID
-  AND WORD.LOCALE = 1
+  AND WORD.LOCALE = :LOCALE
 WHERE
   VAL.RT_ID = :RT_ID
   AND VAL.OPTION_ID = :OPTION_ID
@@ -138,6 +145,7 @@ ORDER BY
             var params = new HashMap<String, Object>();
             params.put("RT_ID", rtId);
             params.put("OPTION_ID", optionId);
+            params.put("LOCALE", locale);
             npps.setParameters(params);
             ResultSet rs = npps.getPreparedStatement().executeQuery();
 

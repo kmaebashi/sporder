@@ -9,5 +9,8 @@ public enum Route {
     MENU_IMAGE_S,
     MENU_IMAGE_L,
     GET_MENU_ITEM_INFO,
+    ORDER,
+    ORDER_LIST,
+    ORDER_HISTORY,
     NO_ROUTE
 }

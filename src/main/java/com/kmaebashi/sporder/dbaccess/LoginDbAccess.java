@@ -3,6 +3,7 @@ package com.kmaebashi.sporder.dbaccess;
 import com.kmaebashi.dbutil.NamedParameterPreparedStatement;
 import com.kmaebashi.dbutil.ResultSetMapper;
 import com.kmaebashi.nctfw.DbAccessInvoker;
+import com.kmaebashi.sporder.dto.DeviceSessionDto;
 import com.kmaebashi.sporder.dto.JoinTokenDto;
 import com.kmaebashi.sporder.dto.TableDto;
 
@@ -211,6 +212,56 @@ INSERT INTO T_DEVICE_SESSIONS (
             params.put("SESSION_TOKEN", sessionToken);
             params.put("EXPIRES_AT", expiresAt);
             params.put("CREATED_AT", createdAt);
+            npps.setParameters(params);
+
+            return npps.getPreparedStatement().executeUpdate();
+        });
+    }
+
+    public static DeviceSessionDto getDeviceSessionBySessionTokenForUpdate(DbAccessInvoker invoker,
+                                                                           String sessionToken) {
+        return invoker.invoke((context) -> {
+            String sql = """
+SELECT
+  RT_ID,
+  DEVICE_SESSION_ID,
+  ORDER_GROUP_ID,
+  EXPIRES_AT
+FROM T_DEVICE_SESSIONS
+WHERE
+  SESSION_TOKEN = :SESSION_TOKEN
+FOR UPDATE
+""";
+
+            NamedParameterPreparedStatement npps
+                    = NamedParameterPreparedStatement.newInstance(context.getConnection(), sql);
+            var params = new HashMap<String, Object>();
+            params.put("SESSION_TOKEN", sessionToken);
+            npps.setParameters(params);
+            ResultSet rs = npps.getPreparedStatement().executeQuery();
+
+            return ResultSetMapper.toDto(rs, DeviceSessionDto.class);
+        });
+    }
+
+    public static int updateDeviceSessionExpiresAt(DbAccessInvoker invoker, String rtId, String deviceSessionId,
+                                                   LocalDateTime expiresAt) {
+        return invoker.invoke((context) -> {
+            String sql = """
+UPDATE T_DEVICE_SESSIONS
+SET
+  EXPIRES_AT = :EXPIRES_AT
+WHERE
+  RT_ID = :RT_ID
+  AND DEVICE_SESSION_ID = :DEVICE_SESSION_ID
+""";
+
+            NamedParameterPreparedStatement npps
+                    = NamedParameterPreparedStatement.newInstance(context.getConnection(), sql);
+            var params = new HashMap<String, Object>();
+            params.put("RT_ID", rtId);
+            params.put("DEVICE_SESSION_ID", deviceSessionId);
+            params.put("EXPIRES_AT", expiresAt);
             npps.setParameters(params);
 
             return npps.getPreparedStatement().executeUpdate();

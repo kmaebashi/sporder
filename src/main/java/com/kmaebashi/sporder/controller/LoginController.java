@@ -46,12 +46,19 @@ public class LoginController {
             RoutingResult ret = LoginService.join(context.getServiceInvoker(), rtId, orderGroupId, joinTokenId, isFirst,
                                                   outSessionToken);
             HttpServletResponse response = context.getServletResponse();
-            Cookie newAuthCookie = new Cookie(CookieKey.AUTH_COOKIE, outSessionToken[0]);
-            newAuthCookie.setMaxAge(60 * 60 * 24);
-            newAuthCookie.setHttpOnly(true);
-            newAuthCookie.setSecure(true);
-            newAuthCookie.setPath(context.getServletRequest().getContextPath());
-            context.getServletResponse().addCookie(newAuthCookie);
+            Cookie authCookie = new Cookie(CookieKey.AUTH_COOKIE, outSessionToken[0]);
+            authCookie.setMaxAge(60 * 60 * 24);
+            authCookie.setHttpOnly(true);
+            authCookie.setSecure(true);
+            authCookie.setPath(context.getServletRequest().getContextPath());
+            context.getServletResponse().addCookie(authCookie);
+
+            Cookie localeCookie = new Cookie(CookieKey.LOCALE_COOKIE, "1");
+            localeCookie.setMaxAge(60 * 60 * 24);
+            localeCookie.setHttpOnly(true);
+            localeCookie.setSecure(true);
+            localeCookie.setPath(context.getServletRequest().getContextPath());
+            response.addCookie(localeCookie);
 
             return ret;
         });

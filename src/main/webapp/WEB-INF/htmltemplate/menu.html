@@ -91,15 +91,27 @@
       </div>
     </div>
     <div class="order-dialog-actions">
-      <button type="submit" class="order-dialog-button primary">注文する</button>
+      <button type="button" class="order-dialog-button primary add-to-order-button">注文に追加</button>
       <button type="submit" class="order-dialog-button secondary">キャンセル</button>
     </div>
   </form>
 </dialog>
 
+<!-- 注文確認ダイアログ -->
+<dialog id="order-confirm-dialog">
+  <div class="order-confirm-content">
+    <div class="order-confirm-message">注文しますか?</div>
+    <div class="order-confirm-actions">
+      <button type="button" class="order-confirm-button primary confirm-order-button">注文する</button>
+      <button type="button" class="order-confirm-button secondary continue-selection-button">選択を続ける</button>
+    </div>
+  </div>
+</dialog>
+
 <!-- 下部ナビ -->
 <div class="bottom-nav">
   <div class="nav-item">店員呼出</div>
+  <div class="nav-item">注文内容</div>
   <div class="nav-item">注文履歴</div>
   <div class="nav-item">お会計</div>
 </div>

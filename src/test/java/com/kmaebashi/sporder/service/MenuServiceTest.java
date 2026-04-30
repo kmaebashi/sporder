@@ -8,6 +8,7 @@ import com.kmaebashi.nctfwimpl.ServiceInvokerImpl;
 import com.kmaebashi.simplelogger.Logger;
 import com.kmaebashi.simpleloggerimpl.FileLogger;
 import com.kmaebashi.sporder.SpOrderTestUtil;
+import com.kmaebashi.sporder.common.Locale;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeAll;
@@ -36,7 +37,7 @@ class MenuServiceTest {
                 logger);
         ServiceInvoker si = new ServiceInvokerImpl(sc);
 
-        DocumentResult dr = MenuService.showMenu(si, "nonbe_republic", 1);
+        DocumentResult dr = MenuService.showMenu(si, "nonbe_republic", 1, Locale.JP);
         String html = dr.getDocument().html();
     }
 
@@ -49,7 +50,7 @@ class MenuServiceTest {
                 logger);
         ServiceInvoker si = new ServiceInvokerImpl(sc);
 
-        DocumentResult dr = MenuService.showMenu(si, "nonbe_republic", 2);
+        DocumentResult dr = MenuService.showMenu(si, "nonbe_republic", 2, Locale.JP);
         String html = dr.getDocument().html();
     }
 }

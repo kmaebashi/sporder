@@ -11,6 +11,7 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
 window.onload = function (e) {
     setMenuItemClickHandlers();
     setOrderCountClickHandlers();
+    setOrderDialogClickHandlers();
 };
 function setMenuItemClickHandlers() {
     const menuItems = document.querySelectorAll(".menu-item");
@@ -23,6 +24,24 @@ function setOrderCountClickHandlers() {
     const increaseButton = document.querySelector(".order-count-button.increase");
     decreaseButton === null || decreaseButton === void 0 ? void 0 : decreaseButton.addEventListener("click", onDecreaseOrderCountClick);
     increaseButton === null || increaseButton === void 0 ? void 0 : increaseButton.addEventListener("click", onIncreaseOrderCountClick);
+}
+function setOrderDialogClickHandlers() {
+    const addToOrderButton = document.querySelector(".add-to-order-button");
+    const continueSelectionButton = document.querySelector(".continue-selection-button");
+    const confirmOrderButton = document.querySelector(".confirm-order-button");
+    addToOrderButton === null || addToOrderButton === void 0 ? void 0 : addToOrderButton.addEventListener("click", onAddToOrderClick);
+    continueSelectionButton === null || continueSelectionButton === void 0 ? void 0 : continueSelectionButton.addEventListener("click", onContinueSelectionClick);
+    confirmOrderButton === null || confirmOrderButton === void 0 ? void 0 : confirmOrderButton.addEventListener("click", onConfirmOrderClick);
+}
+function onAddToOrderClick(e) {
+    closeOrderDialog();
+    showOrderConfirmDialog();
+}
+function onContinueSelectionClick(e) {
+    closeOrderConfirmDialog();
+}
+function onConfirmOrderClick(e) {
+    closeOrderConfirmDialog();
 }
 function onDecreaseOrderCountClick(e) {
     changeOrderCount(-1);
@@ -141,5 +160,26 @@ function showOrderDialog() {
     }
     if (!dialog.open) {
         dialog.showModal();
+    }
+}
+function closeOrderDialog() {
+    const dialog = document.getElementById("order-dialog");
+    if (dialog instanceof HTMLDialogElement && dialog.open) {
+        dialog.close();
+    }
+}
+function showOrderConfirmDialog() {
+    const dialog = document.getElementById("order-confirm-dialog");
+    if (!(dialog instanceof HTMLDialogElement)) {
+        return;
+    }
+    if (!dialog.open) {
+        dialog.showModal();
+    }
+}
+function closeOrderConfirmDialog() {
+    const dialog = document.getElementById("order-confirm-dialog");
+    if (dialog instanceof HTMLDialogElement && dialog.open) {
+        dialog.close();
     }
 }

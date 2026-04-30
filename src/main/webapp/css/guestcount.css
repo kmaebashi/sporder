@@ -69,43 +69,6 @@
   grid-column: span 2;
 }
 
-.language-switch {
-  width: min(100%, 280px);
-  display: flex;
-  align-self: center;
-  margin: 28px 0 18px;
-  padding: 4px;
-  border: 1px solid #d0d0d0;
-  border-radius: 8px;
-  background: #fff;
-}
-
-.language-option {
-  flex: 1;
-}
-
-.language-option input {
-  position: absolute;
-  opacity: 0;
-  pointer-events: none;
-}
-
-.language-option span {
-  min-height: 40px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  border-radius: 6px;
-  font-size: 15px;
-  font-weight: bold;
-  cursor: pointer;
-}
-
-.language-option input:checked + span {
-  background: #333;
-  color: #fff;
-}
-
 .guest-count-submit {
   width: 100%;
   margin-top: auto;

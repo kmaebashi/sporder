@@ -1,6 +1,7 @@
 window.onload = function(e: Event): void {
     setMenuItemClickHandlers();
     setOrderCountClickHandlers();
+    setOrderDialogClickHandlers();
 }
 
 interface OptionInfo {
@@ -29,6 +30,29 @@ function setOrderCountClickHandlers(): void {
 
     decreaseButton?.addEventListener("click", onDecreaseOrderCountClick);
     increaseButton?.addEventListener("click", onIncreaseOrderCountClick);
+}
+
+function setOrderDialogClickHandlers(): void {
+    const addToOrderButton: Element | null = document.querySelector(".add-to-order-button");
+    const continueSelectionButton: Element | null = document.querySelector(".continue-selection-button");
+    const confirmOrderButton: Element | null = document.querySelector(".confirm-order-button");
+
+    addToOrderButton?.addEventListener("click", onAddToOrderClick);
+    continueSelectionButton?.addEventListener("click", onContinueSelectionClick);
+    confirmOrderButton?.addEventListener("click", onConfirmOrderClick);
+}
+
+function onAddToOrderClick(e: Event): void {
+    closeOrderDialog();
+    showOrderConfirmDialog();
+}
+
+function onContinueSelectionClick(e: Event): void {
+    closeOrderConfirmDialog();
+}
+
+function onConfirmOrderClick(e: Event): void {
+    closeOrderConfirmDialog();
 }
 
 function onDecreaseOrderCountClick(e: Event): void {
@@ -163,5 +187,29 @@ function showOrderDialog(): void {
     }
     if (!dialog.open) {
         dialog.showModal();
+    }
+}
+
+function closeOrderDialog(): void {
+    const dialog: HTMLElement | null = document.getElementById("order-dialog");
+    if (dialog instanceof HTMLDialogElement && dialog.open) {
+        dialog.close();
+    }
+}
+
+function showOrderConfirmDialog(): void {
+    const dialog: HTMLElement | null = document.getElementById("order-confirm-dialog");
+    if (!(dialog instanceof HTMLDialogElement)) {
+        return;
+    }
+    if (!dialog.open) {
+        dialog.showModal();
+    }
+}
+
+function closeOrderConfirmDialog(): void {
+    const dialog: HTMLElement | null = document.getElementById("order-confirm-dialog");
+    if (dialog instanceof HTMLDialogElement && dialog.open) {
+        dialog.close();
     }
 }

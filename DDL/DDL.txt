@@ -180,6 +180,7 @@ create table t_order (
   menu_item_id integer not null,
   count integer not null,
   created_at timestamp not null,
+  ordered_at timestamp,
   primary key (rt_id, order_group_id, order_id),
   foreign key (rt_id, order_group_id)
     references t_order_groups (rt_id, order_group_id)

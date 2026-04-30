@@ -26,6 +26,17 @@
   padding-bottom: 70px; /* ナビ分余白 */
 }
 
+.page-title-bar {
+  background: #fff;
+  border-bottom: 1px solid #ddd;
+}
+
+.page-title {
+  padding: 12px 16px;
+  font-size: 16px;
+  font-weight: bold;
+}
+
 .subcategory {
   padding: 8px 12px;
   margin: 10px 8px 4px;
@@ -267,6 +278,124 @@
   color: #fff;
 }
 
+/* 注文内容 */
+#order-list {
+  padding: 8px 8px 8px;
+}
+
+#order-history-list {
+  padding: 8px 8px 8px;
+}
+
+.order-list-item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  min-height: 72px;
+  margin: 8px 0;
+  padding: 12px;
+  border-radius: 8px;
+  background: #fff;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+.order-list-item.deleted {
+  background: #e6e6e6;
+  color: #777;
+}
+
+.order-list-item.deleted .order-list-price {
+  color: #777;
+}
+
+.order-list-main {
+  min-width: 0;
+}
+
+.order-list-name {
+  margin-bottom: 6px;
+  font-size: 16px;
+  font-weight: bold;
+}
+
+.order-list-count {
+  color: #666;
+  font-size: 14px;
+}
+
+.order-list-side {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex: 0 0 auto;
+}
+
+.order-list-price {
+  color: #ff6600;
+  font-size: 16px;
+  font-weight: bold;
+}
+
+.order-delete-button {
+  padding: 8px 10px;
+  border-radius: 6px;
+  background: #eee;
+  color: #333;
+  font-size: 14px;
+  font-weight: bold;
+  cursor: pointer;
+}
+
+.order-confirm-area {
+  padding: 0 8px 84px;
+}
+
+.order-submit-button {
+  width: 100%;
+  padding: 14px;
+  border-radius: 6px;
+  background: #ff6600;
+  color: #fff;
+  font-size: 16px;
+  font-weight: bold;
+  cursor: pointer;
+}
+
+.order-history-total {
+  margin: 8px;
+  padding: 16px 12px;
+  border-top: 1px solid #ddd;
+  border-bottom: 1px solid #ddd;
+  background: #fff;
+}
+
+.order-history-total-label {
+  margin-bottom: 6px;
+  color: #666;
+  font-size: 16px;
+  font-weight: bold;
+  text-align: left;
+}
+
+.order-history-total-price {
+  color: #ff6600;
+  font-size: 34px;
+  font-weight: bold;
+  text-align: right;
+}
+
+.checkout-button {
+  width: 100%;
+  padding: 14px;
+  border-radius: 6px;
+  background: #ff6600;
+  color: #fff;
+  font-size: 16px;
+  font-weight: bold;
+  cursor: pointer;
+}
+
 /* 下部ナビ */
 .bottom-nav {
   position: fixed;
@@ -280,10 +409,12 @@
 
 .nav-item {
   flex: 1;
+  color: inherit;
   text-align: center;
   padding: 10px 0;
   font-size: 14px;
   cursor: pointer;
+  text-decoration: none;
 }
 
 .nav-item:hover {

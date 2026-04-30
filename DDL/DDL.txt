@@ -173,13 +173,14 @@ create table m_categories_items (
 );
 
 -- 個々の注文
-create table t_order (
+create table t_orders (
   rt_id varchar(32) not null,
   order_group_id char(22),
   order_id integer not null,
   menu_item_id integer not null,
   count integer not null,
   created_at timestamp not null,
+  deleted_at timestamp,
   ordered_at timestamp,
   primary key (rt_id, order_group_id, order_id),
   foreign key (rt_id, order_group_id)

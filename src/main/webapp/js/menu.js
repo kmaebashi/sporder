@@ -34,14 +34,40 @@ function setOrderDialogClickHandlers() {
     confirmOrderButton === null || confirmOrderButton === void 0 ? void 0 : confirmOrderButton.addEventListener("click", onConfirmOrderClick);
 }
 function onAddToOrderClick(e) {
-    closeOrderDialog();
-    showOrderConfirmDialog();
+    return __awaiter(this, void 0, void 0, function* () {
+        const button = e.currentTarget instanceof Element ? e.currentTarget : null;
+        if (button instanceof HTMLButtonElement) {
+            button.disabled = true;
+        }
+        try {
+            const orderInfo = createOrderInfo();
+            if (orderInfo == null) {
+                alert("注文内容が不正です。");
+                return;
+            }
+            yield postOrder(orderInfo);
+            closeOrderDialog();
+            showOrderConfirmDialog();
+        }
+        catch (error) {
+            alert("注文に失敗しました。");
+        }
+        finally {
+            if (button instanceof HTMLButtonElement) {
+                button.disabled = false;
+            }
+        }
+    });
 }
 function onContinueSelectionClick(e) {
     closeOrderConfirmDialog();
 }
 function onConfirmOrderClick(e) {
-    closeOrderConfirmDialog();
+    const rtId = getRtId();
+    if (rtId == null) {
+        return;
+    }
+    window.location.href = "orderlist?rt_id=" + encodeURIComponent(rtId);
 }
 function onDecreaseOrderCountClick(e) {
     changeOrderCount(-1);
@@ -85,6 +111,10 @@ function getRtId() {
     const params = new URLSearchParams(window.location.search);
     return params.get("rt_id");
 }
+function getOrderGroupId() {
+    const orderGroupId = document.body.dataset.orderGroupId;
+    return orderGroupId == null || orderGroupId == "" ? null : orderGroupId;
+}
 function fetchMenuItemInfo(rtId, menuItemId) {
     return __awaiter(this, void 0, void 0, function* () {
         const params = new URLSearchParams();
@@ -98,11 +128,18 @@ function fetchMenuItemInfo(rtId, menuItemId) {
     });
 }
 function updateOrderDialog(info, rtId) {
+    setOrderDialogMenuItemId(info.menuItemId);
     setText(".order-dialog-name", info.name);
     setText(".order-dialog-price", "¥" + info.price);
     setFullsizeImage(info, rtId);
     resetOrderCount();
     updateOptionField(info);
+}
+function setOrderDialogMenuItemId(menuItemId) {
+    const dialog = document.getElementById("order-dialog");
+    if (dialog instanceof HTMLDialogElement) {
+        dialog.dataset.menuItemId = String(menuItemId);
+    }
 }
 function setText(selector, text) {
     const element = document.querySelector(selector);
@@ -126,6 +163,54 @@ function resetOrderCount() {
     if (count instanceof HTMLInputElement) {
         count.value = "1";
     }
+}
+function createOrderInfo() {
+    const rtId = getRtId();
+    const orderGroupId = getOrderGroupId();
+    const menuItemId = getOrderDialogMenuItemId();
+    const count = getOrderCount();
+    if (rtId == null || orderGroupId == null || menuItemId == null || count == null) {
+        return null;
+    }
+    return {
+        rtId: rtId,
+        orderGroupId: orderGroupId,
+        menuItem: menuItemId,
+        count: count
+    };
+}
+function getOrderDialogMenuItemId() {
+    const dialog = document.getElementById("order-dialog");
+    if (!(dialog instanceof HTMLDialogElement) || dialog.dataset.menuItemId == null) {
+        return null;
+    }
+    const menuItemId = Number(dialog.dataset.menuItemId);
+    return Number.isNaN(menuItemId) ? null : menuItemId;
+}
+function getOrderCount() {
+    const countInput = document.querySelector(".order-count");
+    if (!(countInput instanceof HTMLInputElement)) {
+        return null;
+    }
+    const count = Number(countInput.value);
+    if (Number.isNaN(count) || count <= 0) {
+        return null;
+    }
+    return count;
+}
+function postOrder(orderInfo) {
+    return __awaiter(this, void 0, void 0, function* () {
+        const response = yield fetch("order", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify(orderInfo)
+        });
+        if (!response.ok) {
+            throw new Error("注文に失敗しました。");
+        }
+    });
 }
 function updateOptionField(info) {
     var _a, _b;

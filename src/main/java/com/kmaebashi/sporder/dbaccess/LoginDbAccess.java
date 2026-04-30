@@ -267,4 +267,30 @@ WHERE
             return npps.getPreparedStatement().executeUpdate();
         });
     }
+
+    public static LocalDateTime getOrderGroupClosedAt(DbAccessInvoker invoker, String rtId, String orderGroupId) {
+        return invoker.invoke((context) -> {
+            String sql = """
+SELECT
+  CLOSED_AT
+FROM T_ORDER_GROUPS
+WHERE
+  RT_ID = :RT_ID
+  AND ORDER_GROUP_ID = :ORDER_GROUP_ID
+""";
+
+            NamedParameterPreparedStatement npps
+                    = NamedParameterPreparedStatement.newInstance(context.getConnection(), sql);
+            var params = new HashMap<String, Object>();
+            params.put("RT_ID", rtId);
+            params.put("ORDER_GROUP_ID", orderGroupId);
+            npps.setParameters(params);
+            ResultSet rs = npps.getPreparedStatement().executeQuery();
+
+            if (!rs.next()) {
+                return null;
+            }
+            return rs.getObject("CLOSED_AT", LocalDateTime.class);
+        });
+    }
 }

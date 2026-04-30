@@ -4,6 +4,7 @@ import com.kmaebashi.nctfw.ControllerInvoker;
 import com.kmaebashi.nctfw.JsonResult;
 import com.kmaebashi.nctfw.NotFoundException;
 import com.kmaebashi.nctfw.RoutingResult;
+import com.kmaebashi.sporder.common.CookieKey;
 import com.kmaebashi.sporder.common.Locale;
 import com.kmaebashi.sporder.service.MenuService;
 import jakarta.servlet.http.HttpServletRequest;
@@ -24,8 +25,9 @@ public class MenuController {
             }
             int categoryId = Integer.parseInt(categoryIdStr);
             Locale locale = Util.getLocaleFromCookie(request);
+            String sessionToken = Util.searchCookie(request, CookieKey.AUTH_COOKIE).getValue();
 
-            return MenuService.showMenu(context.getServiceInvoker(), rtId, categoryId, locale);
+            return MenuService.showMenu(context.getServiceInvoker(), rtId, categoryId, locale, sessionToken);
         });
     }
 

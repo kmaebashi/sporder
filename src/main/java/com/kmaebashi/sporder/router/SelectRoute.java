@@ -27,6 +27,8 @@ public class SelectRoute {
             return Route.GET_MENU_ITEM_INFO;
         } else if (path.equals("order")) {
             return Route.ORDER;
+        } else if (path.equals("placeorder")) {
+            return Route.PLACE_ORDER;
         } else if (path.equals("orderlist")) {
             return Route.ORDER_LIST;
         } else if (path.equals("orderhistory")) {

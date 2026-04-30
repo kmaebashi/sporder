@@ -22,6 +22,8 @@ import java.util.HashMap;
 import java.util.ResourceBundle;
 import com.kmaebashi.sporder.controller.LoginController;
 import com.kmaebashi.sporder.controller.MenuController;
+import com.kmaebashi.sporder.controller.OrderHistoryController;
+import com.kmaebashi.sporder.controller.OrderListController;
 
 public class SpOrderRouter extends Router {
     private ServletContext servletContext;
@@ -62,9 +64,9 @@ public class SpOrderRouter extends Router {
             } else if (route == Route.GET_MENU_ITEM_INFO) {
                 return MenuController.getMenuItemInfo(invoker);
             } else if (route == Route.ORDER_LIST) {
-                return null;
+                return OrderListController.showPage(invoker);
             } else if (route == Route.ORDER_HISTORY) {
-                return null;
+                return OrderHistoryController.showPage(invoker);
             }
         } else if (request.getMethod().equals("POST")) {
             if (route == Route.JOIN) {
@@ -73,6 +75,10 @@ public class SpOrderRouter extends Router {
                 return GuestCountController.setGuestCount(invoker);
             } else if (route == Route.ORDER) {
                 return OrderController.order(invoker);
+            } else if (route == Route.ORDER_LIST) {
+                return OrderListController.placeOrder(invoker);
+            } else if (route == Route.PLACE_ORDER) {
+                return OrderListController.placeOrder(invoker);
             }
         }
         return null;

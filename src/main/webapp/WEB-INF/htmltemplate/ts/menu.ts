@@ -17,6 +17,13 @@ interface MenuItemInfo {
     optionList: OptionInfo[] | null;
 }
 
+interface OrderInfo {
+    rtId: string;
+    orderGroupId: string;
+    menuItem: number;
+    count: number;
+}
+
 function setMenuItemClickHandlers(): void {
     const menuItems: NodeListOf<HTMLElement> = document.querySelectorAll(".menu-item");
     menuItems.forEach((menuItem: HTMLElement): void => {
@@ -42,9 +49,29 @@ function setOrderDialogClickHandlers(): void {
     confirmOrderButton?.addEventListener("click", onConfirmOrderClick);
 }
 
-function onAddToOrderClick(e: Event): void {
-    closeOrderDialog();
-    showOrderConfirmDialog();
+async function onAddToOrderClick(e: Event): Promise<void> {
+    const button: Element | null = e.currentTarget instanceof Element ? e.currentTarget : null;
+    if (button instanceof HTMLButtonElement) {
+        button.disabled = true;
+    }
+
+    try {
+        const orderInfo: OrderInfo | null = createOrderInfo();
+        if (orderInfo == null) {
+            alert("注文内容が不正です。");
+            return;
+        }
+
+        await postOrder(orderInfo);
+        closeOrderDialog();
+        showOrderConfirmDialog();
+    } catch (error) {
+        alert("注文に失敗しました。");
+    } finally {
+        if (button instanceof HTMLButtonElement) {
+            button.disabled = false;
+        }
+    }
 }
 
 function onContinueSelectionClick(e: Event): void {
@@ -52,7 +79,11 @@ function onContinueSelectionClick(e: Event): void {
 }
 
 function onConfirmOrderClick(e: Event): void {
-    closeOrderConfirmDialog();
+    const rtId: string | null = getRtId();
+    if (rtId == null) {
+        return;
+    }
+    window.location.href = "orderlist?rt_id=" + encodeURIComponent(rtId);
 }
 
 function onDecreaseOrderCountClick(e: Event): void {
@@ -104,6 +135,11 @@ function getRtId(): string | null {
     return params.get("rt_id");
 }
 
+function getOrderGroupId(): string | null {
+    const orderGroupId: string | undefined = document.body.dataset.orderGroupId;
+    return orderGroupId == null || orderGroupId == "" ? null : orderGroupId;
+}
+
 async function fetchMenuItemInfo(rtId: string, menuItemId: string): Promise<MenuItemInfo> {
     const params: URLSearchParams = new URLSearchParams();
     params.set("rt_id", rtId);
@@ -117,11 +153,19 @@ async function fetchMenuItemInfo(rtId: string, menuItemId: string): Promise<Menu
 }
 
 function updateOrderDialog(info: MenuItemInfo, rtId: string): void {
+    setOrderDialogMenuItemId(info.menuItemId);
     setText(".order-dialog-name", info.name);
     setText(".order-dialog-price", "¥" + info.price);
     setFullsizeImage(info, rtId);
     resetOrderCount();
     updateOptionField(info);
+}
+
+function setOrderDialogMenuItemId(menuItemId: number): void {
+    const dialog: HTMLElement | null = document.getElementById("order-dialog");
+    if (dialog instanceof HTMLDialogElement) {
+        dialog.dataset.menuItemId = String(menuItemId);
+    }
 }
 
 function setText(selector: string, text: string): void {
@@ -148,6 +192,61 @@ function resetOrderCount(): void {
     const count: Element | null = document.querySelector(".order-count");
     if (count instanceof HTMLInputElement) {
         count.value = "1";
+    }
+}
+
+function createOrderInfo(): OrderInfo | null {
+    const rtId: string | null = getRtId();
+    const orderGroupId: string | null = getOrderGroupId();
+    const menuItemId: number | null = getOrderDialogMenuItemId();
+    const count: number | null = getOrderCount();
+
+    if (rtId == null || orderGroupId == null || menuItemId == null || count == null) {
+        return null;
+    }
+
+    return {
+        rtId: rtId,
+        orderGroupId: orderGroupId,
+        menuItem: menuItemId,
+        count: count
+    };
+}
+
+function getOrderDialogMenuItemId(): number | null {
+    const dialog: HTMLElement | null = document.getElementById("order-dialog");
+    if (!(dialog instanceof HTMLDialogElement) || dialog.dataset.menuItemId == null) {
+        return null;
+    }
+
+    const menuItemId: number = Number(dialog.dataset.menuItemId);
+    return Number.isNaN(menuItemId) ? null : menuItemId;
+}
+
+function getOrderCount(): number | null {
+    const countInput: Element | null = document.querySelector(".order-count");
+    if (!(countInput instanceof HTMLInputElement)) {
+        return null;
+    }
+
+    const count: number = Number(countInput.value);
+    if (Number.isNaN(count) || count <= 0) {
+        return null;
+    }
+    return count;
+}
+
+async function postOrder(orderInfo: OrderInfo): Promise<void> {
+    const response: Response = await fetch("order", {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json"
+        },
+        body: JSON.stringify(orderInfo)
+    });
+
+    if (!response.ok) {
+        throw new Error("注文に失敗しました。");
     }
 }
 

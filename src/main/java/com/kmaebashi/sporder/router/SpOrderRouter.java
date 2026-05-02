@@ -5,6 +5,7 @@ import com.kmaebashi.nctfw.ControllerInvoker;
 import com.kmaebashi.nctfw.Router;
 import com.kmaebashi.nctfw.RoutingResult;
 import com.kmaebashi.simplelogger.Logger;
+import com.kmaebashi.sporder.controller.CloseTableController;
 import com.kmaebashi.sporder.controller.GuestCountController;
 import com.kmaebashi.sporder.controller.ImageController;
 import com.kmaebashi.sporder.controller.OrderController;
@@ -79,6 +80,8 @@ public class SpOrderRouter extends Router {
                 return OrderListController.placeOrder(invoker);
             } else if (route == Route.PLACE_ORDER) {
                 return OrderListController.placeOrder(invoker);
+            } else if (route == Route.CLOSE_TABLE) {
+                return CloseTableController.close(invoker);
             }
         }
         return null;

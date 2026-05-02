@@ -33,6 +33,8 @@ public class SelectRoute {
             return Route.ORDER_LIST;
         } else if (path.equals("orderhistory")) {
             return Route.ORDER_HISTORY;
+        } else if (path.equals("closetable")) {
+            return Route.CLOSE_TABLE;
         }
         return Route.NO_ROUTE;
     }

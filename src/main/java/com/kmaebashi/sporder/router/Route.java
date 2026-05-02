@@ -13,5 +13,6 @@ public enum Route {
     PLACE_ORDER,
     ORDER_LIST,
     ORDER_HISTORY,
+    CLOSE_TABLE,
     NO_ROUTE
 }

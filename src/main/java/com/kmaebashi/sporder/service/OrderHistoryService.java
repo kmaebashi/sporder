@@ -4,8 +4,10 @@ import com.kmaebashi.nctfw.BadRequestException;
 import com.kmaebashi.nctfw.DocumentResult;
 import com.kmaebashi.nctfw.ServiceInvoker;
 import com.kmaebashi.sporder.common.Locale;
+import com.kmaebashi.sporder.dbaccess.CloseTableDbAccess;
 import com.kmaebashi.sporder.dbaccess.LoginDbAccess;
 import com.kmaebashi.sporder.dbaccess.OrderDbAccess;
+import com.kmaebashi.sporder.dto.CloseTableDto;
 import com.kmaebashi.sporder.dto.DeviceSessionDto;
 import com.kmaebashi.sporder.dto.OrderHistoryItemDto;
 import org.jsoup.Jsoup;
@@ -35,6 +37,12 @@ public class OrderHistoryService {
 
             Path htmlPath = context.getHtmlTemplateDirectory().resolve("orderhistory.html");
             Document doc = Jsoup.parse(htmlPath.toFile(), "UTF-8");
+            CloseTableDto tableDto = CloseTableDbAccess.getTableByOrderGroup(context.getDbAccessInvoker(), rtId,
+                    sessionDto.orderGroupId);
+            if (tableDto == null) {
+                throw new BadRequestException("テーブルが見つかりません。");
+            }
+            doc.body().attr("data-table-code", tableDto.tableCode);
             renderOrderHistory(doc, OrderDbAccess.getOrderHistoryList(context.getDbAccessInvoker(), rtId,
                     sessionDto.orderGroupId, locale.getCode()));
             renderFooter(doc, rtId);

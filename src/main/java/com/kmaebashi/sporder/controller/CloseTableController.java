@@ -5,27 +5,23 @@ import com.kmaebashi.jsonparser.JsonElement;
 import com.kmaebashi.jsonparser.JsonParser;
 import com.kmaebashi.nctfw.ControllerInvoker;
 import com.kmaebashi.nctfw.RoutingResult;
-import com.kmaebashi.sporder.common.CookieKey;
-import com.kmaebashi.sporder.controller.data.OrderInfo;
-import com.kmaebashi.sporder.controller.data.PlaceOrderInfo;
-import com.kmaebashi.sporder.service.OrderService;
+import com.kmaebashi.sporder.controller.data.CloseTableInfo;
+import com.kmaebashi.sporder.service.CloseTableService;
 import jakarta.servlet.http.HttpServletRequest;
 
-public class OrderController {
-    private OrderController() {}
+public class CloseTableController {
+    private CloseTableController() {}
 
-    public static RoutingResult order(ControllerInvoker invoker) {
+    public static RoutingResult close(ControllerInvoker invoker) {
         return invoker.invokeApi((context) -> {
             HttpServletRequest request = context.getServletRequest();
-            String sessionToken = Util.searchCookie(request, CookieKey.AUTH_COOKIE).getValue();
 
             try (JsonParser jsonParser = JsonParser.newInstance(request.getReader())) {
                 JsonElement elem = jsonParser.parse();
-                OrderInfo info = ClassMapper.toObject(elem, OrderInfo.class);
+                CloseTableInfo info = ClassMapper.toObject(elem, CloseTableInfo.class);
 
-                return OrderService.order(context.getServiceInvoker(), sessionToken, info);
+                return CloseTableService.close(context.getServiceInvoker(), info.tableCode);
             }
         });
     }
-
 }

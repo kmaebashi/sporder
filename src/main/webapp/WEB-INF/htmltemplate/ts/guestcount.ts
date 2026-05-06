@@ -70,7 +70,6 @@ function redirectToMenu(): void {
 
     const params: URLSearchParams = new URLSearchParams();
     params.set("rt_id", rtId);
-    params.set("category_id", "1");
     window.location.href = "menu?" + params.toString();
 }
 

@@ -110,6 +110,7 @@ create table m_options (
   rt_id varchar(32) not null references m_restaurants(rt_id),
   option_id integer not null,
   name_id integer not null,
+  price integer,
   created_at timestamp not null,
   updated_at timestamp not null,
   foreign key (rt_id, name_id)

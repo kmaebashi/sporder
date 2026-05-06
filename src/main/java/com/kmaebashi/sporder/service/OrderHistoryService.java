@@ -83,7 +83,7 @@ public class OrderHistoryService {
         String encodedRtId = URLEncoder.encode(rtId, StandardCharsets.UTF_8);
         doc.getElementsByClass("bottom-nav").first()
                 .getElementsByClass("nav-item").get(1)
-                .attr("href", "menu?rt_id=" + encodedRtId + "&category_id=1");
+                .attr("href", "menu?rt_id=" + encodedRtId);
         doc.getElementsByClass("bottom-nav").first()
                 .getElementsByClass("nav-item").get(2)
                 .attr("href", "orderlist?rt_id=" + encodedRtId);

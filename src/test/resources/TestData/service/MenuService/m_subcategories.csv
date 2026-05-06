@@ -1,0 +1,4 @@
+rt_id,subcategory_id,category_id,name_id,display_order,created_at,updated_at
+rt_no_sub_first,21,20,103,1,2026-01-01T00:00:00,2026-01-01T00:00:00
+rt_with_sub_first,31,30,103,1,2026-01-01T00:00:00,2026-01-01T00:00:00
+rt_with_sub_first,32,30,104,2,2026-01-01T00:00:00,2026-01-01T00:00:00

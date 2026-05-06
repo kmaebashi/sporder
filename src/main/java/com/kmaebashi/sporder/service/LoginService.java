@@ -80,7 +80,7 @@ public class LoginService {
             if (isFirst) {
                 url = "guestcount?rt_id=" + URLEncoder.encode(rtId, StandardCharsets.UTF_8);
             } else {
-                url = "menu?rt_id=" + URLEncoder.encode(rtId, StandardCharsets.UTF_8) + "&category_id=1";
+                url = "menu?rt_id=" + URLEncoder.encode(rtId, StandardCharsets.UTF_8);
             }
             return new RedirectResult(url);
         }, InvokerOption.TRANSACTIONAL);

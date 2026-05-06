@@ -29,7 +29,7 @@ import java.util.List;
 public class MenuService {
     private MenuService() {}
 
-    public static DocumentResult showMenu(ServiceInvoker invoker, String rtId, int categoryId, Locale locale,
+    public static DocumentResult showMenu(ServiceInvoker invoker, String rtId, Integer categoryId, Locale locale,
                                           String sessionToken) {
         return invoker.invoke((context) -> {
             DeviceSessionDto sessionDto = LoginDbAccess.getDeviceSessionBySessionTokenForUpdate(
@@ -45,10 +45,13 @@ public class MenuService {
             Path htmlPath = context.getHtmlTemplateDirectory().resolve("menu.html");
             Document doc = Jsoup.parse(htmlPath.toFile(), "UTF-8");
             DocumentResult ret = new DocumentResult(doc);
+            List<CategoryDto> categoryList = CategoryDbAccess.getCategories(context.getDbAccessInvoker(), rtId,
+                    locale.getCode());
+            int effectiveCategoryId = resolveCategoryId(categoryId, categoryList);
 
             doc.body().attr("data-order-group-id", sessionDto.orderGroupId);
-            renderCategoryBar(context, doc, rtId, categoryId, locale);
-            renderMenuList(context, doc, rtId, categoryId, locale);
+            renderCategoryBar(doc, rtId, effectiveCategoryId, categoryList);
+            renderMenuList(context, doc, rtId, effectiveCategoryId, locale);
             renderFooter(doc, rtId);
 
             return ret;
@@ -82,11 +85,18 @@ public class MenuService {
         });
     }
 
-    private static void renderCategoryBar(ServiceContext context, Document doc, String rtId, int categoryId,
-                                          Locale locale) {
-        List<CategoryDto> categoryList = CategoryDbAccess.getCategories(context.getDbAccessInvoker(), rtId,
-                locale.getCode());
+    private static int resolveCategoryId(Integer categoryId, List<CategoryDto> categoryList) {
+        if (categoryId != null) {
+            return categoryId;
+        }
+        if (categoryList.isEmpty()) {
+            throw new NotFoundException("カテゴリが見つかりません。");
+        }
+        return categoryList.get(0).categoryId;
+    }
 
+    private static void renderCategoryBar(Document doc, String rtId, int categoryId,
+                                          List<CategoryDto> categoryList) {
         Element categoryBarElem = doc.getElementById("category-bar");
         Element firstCateElem = categoryBarElem.getElementsByClass("category").first();
         categoryBarElem.empty();

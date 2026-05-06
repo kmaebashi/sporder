@@ -66,7 +66,6 @@ function redirectToMenu() {
     }
     const params = new URLSearchParams();
     params.set("rt_id", rtId);
-    params.set("category_id", "1");
     window.location.href = "menu?" + params.toString();
 }
 function getGuestCountRtId() {

@@ -126,5 +126,5 @@ function redirectOrderListToMenu(): void {
     if (rtId == null) {
         return;
     }
-    window.location.href = "menu?rt_id=" + encodeURIComponent(rtId) + "&category_id=1";
+    window.location.href = "menu?rt_id=" + encodeURIComponent(rtId);
 }

@@ -118,7 +118,7 @@ public class OrderListService {
 
     private static String createMenuUrl(String rtId) {
         String encodedRtId = URLEncoder.encode(rtId, StandardCharsets.UTF_8);
-        return "menu?rt_id=" + encodedRtId + "&category_id=1";
+        return "menu?rt_id=" + encodedRtId;
     }
 
     private static String createOrderHistoryUrl(String rtId) {

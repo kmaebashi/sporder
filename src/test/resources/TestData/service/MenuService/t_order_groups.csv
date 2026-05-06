@@ -1,0 +1,5 @@
+rt_id,order_group_id,table_id,guest_count,created_at,closed_at
+rt_no_sub_first,OG00000000000000000001,table01,<null>,2026-01-01T00:00:00,<null>
+rt_with_sub_first,OG00000000000000000002,table01,<null>,2026-01-01T00:00:00,<null>
+rt_closed,OG00000000000000000003,table01,<null>,2026-01-01T00:00:00,2026-01-02T00:00:00
+rt_no_categories,OG00000000000000000004,table01,<null>,2026-01-01T00:00:00,<null>

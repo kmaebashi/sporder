@@ -20,10 +20,7 @@ public class MenuController {
                 throw new NotFoundException("URLが不正です。");
             }
             String categoryIdStr = request.getParameter("category_id");
-            if (categoryIdStr == null) {
-                throw new NotFoundException("URLが不正です。");
-            }
-            int categoryId = Integer.parseInt(categoryIdStr);
+            Integer categoryId = categoryIdStr == null ? null : Integer.parseInt(categoryIdStr);
             Locale locale = Util.getLocaleFromCookie(request);
             String sessionToken = Util.searchCookie(request, CookieKey.AUTH_COOKIE).getValue();
 

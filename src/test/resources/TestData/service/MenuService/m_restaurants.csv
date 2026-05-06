@@ -1,0 +1,5 @@
+rt_id,name_id,created_at
+rt_no_sub_first,1,2026-01-01T00:00:00
+rt_with_sub_first,1,2026-01-01T00:00:00
+rt_closed,1,2026-01-01T00:00:00
+rt_no_categories,1,2026-01-01T00:00:00

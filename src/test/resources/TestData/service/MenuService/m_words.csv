@@ -1,0 +1,14 @@
+rt_id,word_id,locale,word,created_at,updated_at
+rt_no_sub_first,101,1,Direct Category,2026-01-01T00:00:00,2026-01-01T00:00:00
+rt_no_sub_first,102,1,Nested Category,2026-01-01T00:00:00,2026-01-01T00:00:00
+rt_no_sub_first,103,1,Nested Subcategory,2026-01-01T00:00:00,2026-01-01T00:00:00
+rt_no_sub_first,201,1,Direct Item A,2026-01-01T00:00:00,2026-01-01T00:00:00
+rt_no_sub_first,202,1,Direct Item B,2026-01-01T00:00:00,2026-01-01T00:00:00
+rt_no_sub_first,203,1,Nested Item,2026-01-01T00:00:00,2026-01-01T00:00:00
+rt_with_sub_first,101,1,Parent Category,2026-01-01T00:00:00,2026-01-01T00:00:00
+rt_with_sub_first,102,1,Plain Category,2026-01-01T00:00:00,2026-01-01T00:00:00
+rt_with_sub_first,103,1,Subcategory A,2026-01-01T00:00:00,2026-01-01T00:00:00
+rt_with_sub_first,104,1,Subcategory B,2026-01-01T00:00:00,2026-01-01T00:00:00
+rt_with_sub_first,201,1,Sub Item A,2026-01-01T00:00:00,2026-01-01T00:00:00
+rt_with_sub_first,202,1,Sub Item B,2026-01-01T00:00:00,2026-01-01T00:00:00
+rt_with_sub_first,203,1,Plain Item,2026-01-01T00:00:00,2026-01-01T00:00:00

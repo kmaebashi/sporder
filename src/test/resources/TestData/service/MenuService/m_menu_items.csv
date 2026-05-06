@@ -1,0 +1,7 @@
+rt_id,menu_item_id,name_id,price,option_id,photo_s,photo_l,created_at,updated_at
+rt_no_sub_first,1001,201,100,<null>,direct-a-s.jpg,direct-a-l.jpg,2026-01-01T00:00:00,2026-01-01T00:00:00
+rt_no_sub_first,1002,202,200,<null>,direct-b-s.jpg,direct-b-l.jpg,2026-01-01T00:00:00,2026-01-01T00:00:00
+rt_no_sub_first,1003,203,300,<null>,nested-s.jpg,nested-l.jpg,2026-01-01T00:00:00,2026-01-01T00:00:00
+rt_with_sub_first,2001,201,400,<null>,sub-a-s.jpg,sub-a-l.jpg,2026-01-01T00:00:00,2026-01-01T00:00:00
+rt_with_sub_first,2002,202,500,<null>,sub-b-s.jpg,sub-b-l.jpg,2026-01-01T00:00:00,2026-01-01T00:00:00
+rt_with_sub_first,2003,203,600,<null>,plain-s.jpg,plain-l.jpg,2026-01-01T00:00:00,2026-01-01T00:00:00
